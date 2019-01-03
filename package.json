@@ -1,6 +1,6 @@
 {
   "name": "subaddress",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Monero subaddress utilities",
   "main": "index.js",
   "scripts": {
