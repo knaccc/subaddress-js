@@ -17,7 +17,7 @@ The following example will display the second subaddress (subaddress index 1) of
 ```javascript
 const subaddress = require('subaddress');
 
-let publicSpendKeyHex = "c66e9ca904e1a8e7dd2f03f0297089da76eb462b26b8378edd0dfc7940ce9a30";
+let publicSpendKeyHex = "3a4a80eada742b2e21025df7ee00dd95227441c64f4f7ed63886c19fd619a6ab";
 let privateViewKeyHex = "3d09263424487cbdc78d56e1f411ff1c171f84d756b736a2ced698011278d709";
 
 let addr = subaddress.getSubaddress(privateViewKeyHex, publicSpendKeyHex, 0, 1);
