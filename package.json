@@ -1,0 +1,23 @@
+{
+  "name": "subaddress",
+  "version": "1.0.0",
+  "description": "Monero subaddress utilities",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/knaccc/subaddress-js.git"
+  },
+  "keywords": [
+    "Monero",
+    "subaddress"
+  ],
+  "author": "knaccc",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/knaccc/subaddress-js/issues"
+  },
+  "homepage": "https://github.com/knaccc/subaddress-js#readme"
+}
