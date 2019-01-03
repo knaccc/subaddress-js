@@ -6,6 +6,8 @@ To use, first find your public spend key and secret view key from your Monero wa
 
 Monero wallets can have multiple receiving addresses called subaddresses. These are organized into accounts. Each Monero account can have multiple subaddresses.
 
+Subaddresses are unlinkable. This means that it is impossible for someone to look at two of your subaddresses and know that they both are addresses for the same wallet.
+
 The first address of the first account is the same as the main wallet address.
 
 ## Example code
