@@ -122,20 +122,23 @@ function pointToHex(p) {
   return elliptic.utils.toHex(ed25519.encodePoint(p, 'hex'));
 }
 
-function replaceAt(s, index, replacement) {
-  return s.substr(0, index) + replacement+ s.substr(index + replacement.length);
+function pad(n, s) {
+    let res = n+"";
+    while (res.length < s) res = res + "0";
+    return res;
 }
 
-function intToLittleEndianUint32Hex(value) {
-  let hex = '00000000';
-  for (var i=3; i>=0; i--) {
-    let n = (value >> i*8);
-    let h = n.toString(16);
-    if(h.length==1) h = '0' + h;
-    hex = replaceAt(hex, i*2, h);
-  }
-  return hex;
+function swapEndianess(n) {    
+    let ns = n.toString(16)                 // translate to hexadecimal notation
+    ns = ns.replace(/^(.(..)*)$/, "0$1");   // add a leading zero if needed    
+    let arr = ns.match(/../g);              // split number in groups of two
+    arr.reverse();                          // reverse the groups
+    let ns2= arr.join("");                  // join the groups back together
+    ns2 = pad(ns2, 8);                      // pad to with 8 leading zeros
+    
+    return ns2;
 }
+
 
 function asciiToHex(str)
 {
@@ -154,7 +157,7 @@ const SUBADDR_HEX = asciiToHex('SubAddr') + '00';
 
 function getSubaddressPublicSpendKeyPoint(privateViewKeyBytes, publicSpendKeyBytes, accountIndex, subaddressIndex) {
 
-  let data = SUBADDR_HEX + privateViewKeyBytes + intToLittleEndianUint32Hex(accountIndex) + intToLittleEndianUint32Hex(subaddressIndex);
+  let data = SUBADDR_HEX + privateViewKeyBytes + swapEndianess(accountIndex) + swapEndianess(subaddressIndex);
   let m = hashToScalar(data);
   let M = ed25519.curve.g.mul(m);
   let B = ed25519.decodePoint(publicSpendKeyBytes);
