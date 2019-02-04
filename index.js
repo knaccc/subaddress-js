@@ -3,7 +3,7 @@ const elliptic = require('elliptic');
 const keccak = require('keccak');
 const Buffer = require('safe-buffer').Buffer;
 
-const ed25519 = new require('elliptic').eddsa('ed25519');
+const ed25519 = require('elliptic').eddsa('ed25519');
 
 const cnBase58 = (function () {
   var b58 = {};
@@ -128,7 +128,7 @@ function pad(n, s) {
     return res;
 }
 
-function swapEndianess(n) {    
+function intToLittleEndianUint32Hex(n) {
     let ns = n.toString(16)                 // translate to hexadecimal notation
     ns = ns.replace(/^(.(..)*)$/, "0$1");   // add a leading zero if needed    
     let arr = ns.match(/../g);              // split number in groups of two
@@ -157,7 +157,7 @@ const SUBADDR_HEX = asciiToHex('SubAddr') + '00';
 
 function getSubaddressPublicSpendKeyPoint(privateViewKeyBytes, publicSpendKeyBytes, accountIndex, subaddressIndex) {
 
-  let data = SUBADDR_HEX + privateViewKeyBytes + swapEndianess(accountIndex) + swapEndianess(subaddressIndex);
+  let data = SUBADDR_HEX + privateViewKeyBytes + intToLittleEndianUint32Hex(accountIndex) + intToLittleEndianUint32Hex(subaddressIndex);
   let m = hashToScalar(data);
   let M = ed25519.curve.g.mul(m);
   let B = ed25519.decodePoint(publicSpendKeyBytes);
