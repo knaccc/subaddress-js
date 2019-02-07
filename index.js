@@ -3,7 +3,7 @@ const elliptic = require('elliptic');
 const keccak = require('keccak');
 const Buffer = require('safe-buffer').Buffer;
 
-const ed25519 = new require('elliptic').eddsa('ed25519');
+const ed25519 = require('elliptic').eddsa('ed25519');
 
 const cnBase58 = (function () {
   var b58 = {};
@@ -122,20 +122,23 @@ function pointToHex(p) {
   return elliptic.utils.toHex(ed25519.encodePoint(p, 'hex'));
 }
 
-function replaceAt(s, index, replacement) {
-  return s.substr(0, index) + replacement+ s.substr(index + replacement.length);
+function pad(n, s) {
+    let res = n+"";
+    while (res.length < s) res = res + "0";
+    return res;
 }
 
-function intToLittleEndianUint32Hex(value) {
-  let hex = '00000000';
-  for (var i=3; i>=0; i--) {
-    let n = (value >> i*8);
-    let h = n.toString(16);
-    if(h.length==1) h = '0' + h;
-    hex = replaceAt(hex, i*2, h);
-  }
-  return hex;
+function intToLittleEndianUint32Hex(n) {
+    let ns = n.toString(16)                 // translate to hexadecimal notation
+    ns = ns.replace(/^(.(..)*)$/, "0$1");   // add a leading zero if needed    
+    let arr = ns.match(/../g);              // split number in groups of two
+    arr.reverse();                          // reverse the groups
+    let ns2= arr.join("");                  // join the groups back together
+    ns2 = pad(ns2, 8);                      // pad to with 8 leading zeros
+    
+    return ns2;
 }
+
 
 function asciiToHex(str)
 {
