@@ -122,26 +122,14 @@ function pointToHex(p) {
   return elliptic.utils.toHex(ed25519.encodePoint(p, 'hex'));
 }
 
-function pad(n, s) {
-    let res = n+"";
-    while (res.length < s) res = res + "0";
-    return res;
+function intToLittleEndianUint32Hex(value) {
+  let h = value.toString(16);
+  if(h.length>8) throw 'value must not equal or exceed 2^32';
+  while(h.length<8) h = '0' + h;
+  return h.match(/../g).reverse().join('');
 }
 
-function intToLittleEndianUint32Hex(n) {
-    let ns = n.toString(16)                 // translate to hexadecimal notation
-    ns = ns.replace(/^(.(..)*)$/, "0$1");   // add a leading zero if needed    
-    let arr = ns.match(/../g);              // split number in groups of two
-    arr.reverse();                          // reverse the groups
-    let ns2= arr.join("");                  // join the groups back together
-    ns2 = pad(ns2, 8);                      // pad to with 8 leading zeros
-    
-    return ns2;
-}
-
-
-function asciiToHex(str)
-{
+function asciiToHex(str) {
   var a = [];
   for (var n = 0, l = str.length; n < l; n ++) {
     var hex = Number(str.charCodeAt(n)).toString(16);
